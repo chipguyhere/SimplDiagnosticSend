@@ -78,7 +78,7 @@ World
 The dollar sign signifies this will be a string, and that the digits prior to the dollar sign are the length.
 
 * The : and ! prefix means the same thing as in the Analog/Digital signals.
-* The example containing "Hello<CR><LF>World" is 12 bytes: five for Hello, five for World, and two for the CR and LF.
+* The first example containing "Hello&lt;CR&gt;&lt;LF&gt;World" is 12 bytes: five for Hello, five for World, and two for the CR and LF.
   The client application is expected to understand from the length of 12, that the new line (CR+LF) is part of the value
   and isn't the start of a new message.
 * The length of 00 is meant to convey a sometimes useful piece of metadata: that the string has not been set since
