@@ -84,4 +84,24 @@ The dollar sign signifies this will be a string, and that the digits prior to th
 * The length of 00 is meant to convey a sometimes useful piece of metadata: that the string has not been set since
   program startup, and that its value of being blank is by default rather than by having been updated.
 
+# Python TCP-to-MQTT script
 
+A Python script is included for connecting the TCP Server and publishing all incoming updates to an MQTT server,
+simplifying further inspection and automation.  This is optional -- you can fully use the Diagnostic Send symbols
+without this script.
+
+Simply plug in the IP addresses and ports of the Crestron processor and MQTT server, as well as the username
+and password (if required) to gain Publish access to the MQTT server.
+
+Because MQTT supports the same paradigm of differentiating between "retained" versus instantaneous messages,
+the ```:``` versus ```!``` flag will inform how updates are pushed.  Basically, messages with the ```:``` flag
+will not be updated if the identical value already exists as a "retained" message on the MQTT server
+(but messages with the ```!``` flag will unconditionally be sent as immediate updates).
+
+This script uses Python3 as well as the paho-mqtt client library.  Most modern desktop operating systems will respond
+to ```python3``` being typed at a shell prompt with either a working python3 interpreter, or an option to install
+it immediately (e.g. from Microsoft Store).
+
+To install paho-mqtt, simply type ```pip install paho-mqtt``` from the shell.
+
+Desktop apps including "MQTT Explorer" (Mac app store) are great for observing an MQTT server in real time.
