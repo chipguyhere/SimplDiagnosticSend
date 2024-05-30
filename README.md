@@ -76,14 +76,14 @@ World
 !SignalNameHere=11$=Hello World
 ```
 
-The dollar sign signifies this will be a string, and that the digits prior to the dollar sign are the length.
+The ```$``` signifies this value is a string, and that the digits prior to the ```$``` are the length, in bytes.
 
-* The : and ! prefix means the same thing as in the Analog/Digital signals.
+* The ```:``` and ```!``` prefixes mean the same thing as in the Analog/Digital signals.
 * The first example containing "Hello&lt;CR&gt;&lt;LF&gt;World" is 12 bytes: five for Hello, five for World, and two for the CR and LF.
   The client application is expected to understand from the length of 12, that the new line (CR+LF) is part of the value
   and isn't the start of a new message.
 * The length of 00 is meant to convey a sometimes useful piece of metadata: that the string has not been set since
-  program startup, and that its value of being blank is by default rather than by having been updated.
+  program startup, and that its value of being blank is by default rather than by having been updated to be blank.
 
 # Python TCP-to-MQTT script
 
@@ -92,13 +92,13 @@ simplifying further inspection and automation.  This is optional -- you can full
 without this script.  The Python script does not run on the Crestron processor -- it runs on your PC, Mac, or a
 dedicated device (like a Raspberry Pi).
 
-This script uses Python3 as well as the paho-mqtt client library.  Most modern desktop operating systems will respond
+This script uses Python3 as well as the ```paho-mqtt``` client library.  Most modern desktop operating systems will respond
 to ```python3``` being typed at a shell prompt with either a working python3 interpreter, or an option to install
 it immediately (e.g. from Microsoft Store).
 
-To install the required paho-mqtt library, simply type ```pip install paho-mqtt``` from the shell.
+To install the required ```paho-mqtt``` library, type ```pip install paho-mqtt``` from the shell.
 
-Simply edit the script and plug in the IP addresses and ports of the Crestron processor and MQTT server,
+Edit the script and plug in the IP addresses and ports of the Crestron processor and MQTT server,
 as well as the username and password (if required) to gain Publish access to the MQTT server.
 The quickest way to get a testing MQTT server for proof-of-concept or debugging purposes is a free cloud MQTT broker instance from
 HiveMQ.com, but ideally, for an ongoing permanent installation, you'll probably want a local MQTT
@@ -110,5 +110,10 @@ Because MQTT supports the same paradigm of differentiating between "retained" ve
 the ```:``` versus ```!``` flag will inform how updates are pushed.  Basically, messages with the ```:``` flag
 will not be updated if the identical value already exists as a "retained" message on the MQTT server
 (but messages with the ```!``` flag will unconditionally be sent as immediate updates).
+
+The Python script will automatically disconnect and reconnect both sides whenever it loses connection with
+_either_ the MQTT server or the Crestron TCP Server socket.  This causes a repeat
+of the entire synchronization process for all retained values to ensure nothing has been missed during
+a loss of contact with either side.
 
 Desktop apps including "MQTT Explorer" (Mac app store) are great for observing an MQTT server in real time.
