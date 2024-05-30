@@ -1,16 +1,17 @@
 # SimplDiagnosticSend
 
-These three custom SIMPL+ blocks can be used to create a TCP Server service on a Crestron processor that allows
-the sending of an unlimited number of diagnostic signals from within a SIMPL program.
+These three custom SIMPL+ blocks can be used to create a TCP Server service on a Crestron processor, allowing
+continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.
 
-One block is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
-You can expand the blocks to allow up to 100 signals.  Each signal is also sent with a text string identifying
-the signal, which you must include in the block (and which ideally could just be the same name as the signal
+One symbol is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
+You can expand the symbols to allow up to 100 signals.  Each signal is also sent with a text string identifying
+the signal, which you must include in the symbol (and which ideally could just be the same name as the signal
 you're sending from the SIMPL program).
 
 Additionally, upon connection, the client will be given the current status of all the signals within
 the first minute of being connected, to allow for a paradigm of "synchronization".  Each message includes a
-"retained" flag to distinguish between a pre-existing value, versus an immediate change or update to the value.
+"retained" flag (```!``` vs ```:```) to distinguish between a pre-existing value, versus an immediate change
+or update to the value.
 
 # Usage
 
