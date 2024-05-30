@@ -102,6 +102,8 @@ The quickest way to get a testing MQTT server for proof-of-concept or debugging 
 HiveMQ.com, but ideally, for an ongoing permanent installation, you'll probably want a local MQTT
 instance running on a dedicated local device so you're not dependent on the cloud or the internet connection.
 
+To run the script from the shell: ```python3 CrestronTCPtoMQTT.py```
+
 Because MQTT supports the same paradigm of differentiating between "retained" versus instantaneous messages,
 the ```:``` versus ```!``` flag will inform how updates are pushed.  Basically, messages with the ```:``` flag
 will not be updated if the identical value already exists as a "retained" message on the MQTT server
