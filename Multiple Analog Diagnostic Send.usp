@@ -1,0 +1,140 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+*******************************************************************************************/
+/*
+# MIT License
+#
+# Copyright (c) 2024 Michael Caldwell-Waller (@chipguyhere)
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# This copyright notice and this permission notice are not required to appear in the
+# binary (executable/object/compiled) copy of a project.
+
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY "" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+#DEFAULT_NONVOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+DIGITAL_INPUT Enable;
+ANALOG_INPUT Send[48];
+STRING_PARAMETER _SKIP_, StringToSend[48][200];
+// BUFFER_INPUT 
+// DIGITAL_OUTPUT 
+// ANALOG_OUTPUT 
+STRING_OUTPUT Output;
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+INTEGER Deferred[48];
+INTEGER HasHadInput[48];
+INTEGER HasStartedUp;
+INTEGER LastSent;
+
+
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+// STRING
+
+/*******************************************************************************************
+  Functions
+*******************************************************************************************/
+Function OnWaitExpired()
+{
+    INTEGER X;
+
+    if (Enable=0) return;
+    if (LastSent=48) return;
+   	LastSent = LastSent + 1;
+	FOR (X = LastSent TO 48) {
+		if (IsSignalDefined(Send[X]) && Deferred[X]=1) {
+			if (HasHadInput[X]=1) {
+				Output = ":" + StringToSend[X] + "=" + ItoA(Send[X]) + "\r\n";
+			} else {
+				Output = ":" + StringToSend[X] + "=0" + ItoA(Send[X]) + "\r\n";
+			}
+            LastSent = X;
+            WAIT(Random(5,35)) OnWaitExpired(); 
+            return;
+        }
+    }
+    LastSent = 48;
+}
+
+
+/*******************************************************************************************
+  Event Handlers
+*******************************************************************************************/
+PUSH Enable
+{
+    INTEGER X;
+    FOR (X = 1 TO 48) Deferred[X]=1;
+    LastSent=0;
+    WAIT (100 + Random(0,400)) OnWaitExpired();
+}
+
+RELEASE Enable
+{
+    CANCELALLWAIT();
+}
+
+
+CHANGE Send
+{
+	INTEGER InputSelect;
+	InputSelect = GetLastModifiedArrayIndex();
+	HasHadInput[InputSelect]=1;
+	Deferred[InputSelect]=0;
+	Output = "!" + StringToSend[InputSelect] + "=" + ItoA(Send[InputSelect]) + "\r\n";
+}
+
+
+Function Main()
+{
+    INTEGER X;
+
+    WaitForInitializationComplete();
+	HasStartedUp=1;
+}
