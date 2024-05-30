@@ -96,6 +96,8 @@ This script uses Python3 as well as the paho-mqtt client library.  Most modern d
 to ```python3``` being typed at a shell prompt with either a working python3 interpreter, or an option to install
 it immediately (e.g. from Microsoft Store).
 
+To install the required paho-mqtt library, simply type ```pip install paho-mqtt``` from the shell.
+
 Simply edit the script and plug in the IP addresses and ports of the Crestron processor and MQTT server,
 as well as the username and password (if required) to gain Publish access to the MQTT server.
 The quickest way to get a testing MQTT server for proof-of-concept or debugging purposes is a free cloud MQTT broker instance from
@@ -108,7 +110,5 @@ Because MQTT supports the same paradigm of differentiating between "retained" ve
 the ```:``` versus ```!``` flag will inform how updates are pushed.  Basically, messages with the ```:``` flag
 will not be updated if the identical value already exists as a "retained" message on the MQTT server
 (but messages with the ```!``` flag will unconditionally be sent as immediate updates).
-
-To install paho-mqtt, simply type ```pip install paho-mqtt``` from the shell.
 
 Desktop apps including "MQTT Explorer" (Mac app store) are great for observing an MQTT server in real time.
