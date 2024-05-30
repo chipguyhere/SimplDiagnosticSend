@@ -69,6 +69,7 @@ mqtt_has_connected=False
 mqtt_has_connected_when=0
 mqtt_has_disconnected=False
 mqtt_connect_has_failed=False
+mqtt_topic_prefix = MQTT_TOPIC.replace('#','')
 tcp_has_connected=False
 tcp_has_connected_when=0
 tcp_has_disconnected=False
@@ -273,11 +274,8 @@ def tcp_listener2():
                 
                 
                 rhs = str(rhs) if contains_nonprintables else rhs.decode()
-                lhs = "crestron/" + lhs
+                lhs = mqtt_topic_prefix + lhs
             
-                if "crestron/rmostats" in lhs:
-                    with open("/home/pi/Documents/debug.txt", "a") as file:
-                        file.write(f"lhs {lhs} rhs {rhs} data {str(data)} bufwas {bufwas}\n")
                 
                 if lhs:
                     global published_topics
