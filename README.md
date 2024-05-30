@@ -10,7 +10,7 @@ you're sending from the SIMPL program).
 
 Additionally, upon connection, the client will be given the current status of all the signals within
 the first minute of being connected, to allow for a paradigm of "synchronization".  Each message includes a
-"retained" flag (```!``` vs ```:```) to distinguish between a pre-existing value, versus an immediate change
+"retained" flag (```:``` vs ```!```) to distinguish between a pre-existing value, versus an immediate change
 or update to the value.
 
 # Usage
