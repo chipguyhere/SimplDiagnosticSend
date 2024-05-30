@@ -4,7 +4,7 @@ These three custom SIMPL+ blocks can be used to create a TCP Server service on a
 continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.
 
 One symbol is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
-You can expand the symbols to allow up to 100 signals.  Each signal is also sent with a text string identifying
+You can expand the symbols to allow up to 48 signals.  Each signal is also sent with a text string identifying
 the signal, which you must include in the symbol (and which ideally could just be the same name as the signal
 you're sending from the SIMPL program).
 
