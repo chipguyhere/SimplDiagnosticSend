@@ -28,7 +28,20 @@ or update to the value.
 * Connect the Enable input.  Connect the Output to the TX$ input of the TCP/IP Server.
 * It is okay to have an unlimited number of Diagnostic Sends sending their output to the same TX$ input of the
   TCP/IP server.
-  
+
+
+# How it works
+
+A simple stream of changes to signals is provided in the form of plain text -- one value (or change) per line.
+
+Since this is based on the TCP/IP Server symbol in SIMPL, the Crestron processor will wait for an incoming TCP connection
+from a client application elsewhere on the network.  Upon connection, the Crestron processor will immediately
+provide a stream of diagnostic information over that connection.
+
+Communication is one-way -- anything sent to the Crestron processor will be ignored.
+Only one connection is allowed at a time (a limitation of the SIMPL TCP/IP Server symbol).
+A second connection attempt will be rejected if the first one is still alive.
+
 # Data format
 
 When an incoming TCP connection is opened, these modules will send the value of the symbols, as plain text,
@@ -62,8 +75,8 @@ Same idea, except that you receive the analog value, instead of 0 and 1.
 ## String Values
 
 Strings are sent with an extra field to signify the length of the string.  There is no escaping of non-printable
-bytes -- all raw bytes (which could include any value between \x00 and \xff, inclusive
-of CR and LF) are sent over the TCP/IP connection without any modification.  The length is used
+bytes -- all raw bytes (which, in addition to printable characters, could include any byte value between \x00 and \xff)
+are sent over the TCP/IP connection without any modification.  The length is used
 to communicate how many bytes will belong to the value.
 
 ```
