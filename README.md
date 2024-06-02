@@ -48,7 +48,7 @@ or update to the value.
 * It is okay to have an unlimited number of Diagnostic Sends sending their output to the same TX$ input of the
   TCP/IP server.
 
-<img src="https://github.com/chipguyhere/SimplDiagnosticSend/blob/main/images/Analog_diagnostic_example_screenshot.png" alt="Example Multiple Analog Diagnostic Send symbol]" width="909" />
+<img src="https://github.com/chipguyhere/SimplDiagnosticSend/blob/main/images/Analog_diagnostic_example_screenshot_1.png" alt="Example Multiple Analog Diagnostic Send symbol]" width="909" />
 
 
 # How it works
