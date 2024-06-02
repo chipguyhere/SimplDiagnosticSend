@@ -35,6 +35,10 @@ or update to the value.
 * Plan to connect the _Connect-F_ feedback output into the _Enable_ input
   of each of the Diagnostic Send symbols (from this module) you'll create.  _Enable_ drives the initial refresh behavior,
   and prevents sending data to the TCP/IP Server if no connection is active.
+
+<img src="https://github.com/chipguyhere/SimplDiagnosticSend/blob/main/images/TCP_server_symbol_screenshot.png" alt="Example TCP Server symbol]" width="459" />
+
+
 * Add one or more Diagnostic Send symbols to your project, and choose some signals to report.  Use Alt-+ to expand
   the symbol to add additional lines as necessary.
 * Make sure each symbol has a text parameter that provides the name of the symbol as you would like it to be seen
@@ -43,6 +47,8 @@ or update to the value.
 * Connect the Enable input.  Connect the Output to the TX$ input of the TCP/IP Server.
 * It is okay to have an unlimited number of Diagnostic Sends sending their output to the same TX$ input of the
   TCP/IP server.
+
+<img src="https://github.com/chipguyhere/SimplDiagnosticSend/blob/main/images/Analog_diagnostic_example_screenshot.png" alt="Example Multiple Analog Diagnostic Send symbol]" width="909" />
 
 
 # How it works
