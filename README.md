@@ -12,9 +12,13 @@ Three high design priorities are:
 # Overview
 
 These three custom SIMPL+ blocks can be used to create a TCP Server service on a Crestron processor, allowing
-continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.
+continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.  Crestron's
+built-in #TCP Server# symbol in SIMPL is used for this purpose, and the custom blocks feed pre-formatted
+data to the TCP Server symbol, and in turn, the client script or software of your choice, running on another
+computer.
 
-One symbol is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
+Three custom symbol modules for SIMPL are provided in this project.
+One is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
 You can expand the symbols to allow up to 48 signals.  Each signal is also sent with a text string identifying
 the signal, which you must include in the symbol (and which ideally could just be the same name as the signal
 you're sending from the SIMPL program).
