@@ -1,5 +1,16 @@
 # SimplDiagnosticSend
 
+This software runs on Crestron processors, and adds the ability to export signals (i.e. variables,
+statuses, diagnostic data, etc.) out of the system, over the network, to some other listener for
+inspection, logging, diagnostic, external automation, or other purposes.
+
+Three high design priorities are:
+* minimizing the resource impact on the Crestron system
+* graceful handling of losses of the network connection
+* simplicity of the module itself, so a typical installer or implementer can understand how it works without an extensive deep dive.
+
+# Overview
+
 These three custom SIMPL+ blocks can be used to create a TCP Server service on a Crestron processor, allowing
 continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.
 
