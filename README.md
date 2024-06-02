@@ -20,8 +20,8 @@ computer.
 Three custom symbol modules for SIMPL are provided in this project.
 One is for sending Digital signals, one is for sending Analog signals, and one is for sending Strings.
 You can expand the symbols to allow up to 48 signals.  Each signal is also sent with a text string identifying
-the signal, which you must include in the symbol (and which ideally could just be the same name as the signal
-you're sending from the SIMPL program).
+the signal, which you must include in the Parameter (center) portion of the symbol programming
+(and which ideally could just be the same name as the signal you're sending from the SIMPL program).
 
 Additionally, upon connection, the client will be given the current status of all the signals within
 the first minute of being connected, to allow for a paradigm of "synchronization".  Each message includes a
@@ -51,16 +51,18 @@ A simple stream of changes to signals is provided in the form of plain text -- o
 
 Since this is based on the TCP/IP Server symbol in SIMPL, the Crestron processor will wait for an incoming TCP connection
 from a client application elsewhere on the network.  Upon connection, the Crestron processor will immediately
-provide a stream of diagnostic information over that connection.
+provide a stream of diagnostic information over that connection, starting with the current value of each signal,
+and then providing real-time updates as they happen, so long as the connection remains open.
 
 Communication is one-way -- anything sent to the Crestron processor will be ignored.
 Only one connection is allowed at a time (a limitation of the SIMPL TCP/IP Server symbol).
-A second connection attempt will be rejected if the first one is still alive.
+A second connection attempt will be rejected if the first one is still active.
 
 # Data format
 
-When an incoming TCP connection is opened, these modules will send the value of the symbols, as plain text,
-terminated with CR+LF, as follows:
+When an incoming TCP connection is opened, these modules will send the current value of the symbols, as plain text,
+terminated with CR+LF, in the following format.  Another line will be provided each time a signal's value is
+changed or updated.
 
 ## Digital Signals
 
@@ -72,10 +74,11 @@ terminated with CR+LF, as follows:
 ```
 
 The first character will be a ```!``` if the signal is being reported due to an immediate update or change,
-or ```:``` if it is being reported upon connection.  Because the reporting is paced over the first seconds
+or ```:``` if it is being initially reported upon connection.  Because the reporting is paced over the first seconds
 of the connection to avoid overwhelming system resources,
 it is possible that you may only get the ```!``` version, if the value is updated or changes
-very shortly upon first connect.  You will never receive a ```:``` message after receiving a ```!``` message
+very shortly upon first connect, before the ```:``` gets sent (due to the intentional pacing delay).
+You will never receive a ```:``` message after receiving a ```!``` message
 for the same signal, unless you disconnect and reconnect.
 
 ## Analog Signals
@@ -116,7 +119,13 @@ The ```$``` signifies this value is a string, and that the digits prior to the `
 # Python TCP-to-MQTT script
 
 A Python script is included for connecting the TCP Server and publishing all incoming updates to an MQTT server,
-simplifying further inspection and automation.  This is optional -- you can fully use the Diagnostic Send symbols
+simplifying further inspection and automation.  The script runs as two separate threads, one each for talking to the MQTT
+and Crestron TCP services separately, queuing messages in the memory of the Python-running computer in the event of slowdowns,
+so that network delays on one side do not slow down the other.  Because of this, using the script with a local-network Python
+instance but a cloud MQTT service is practical for remote diagnostics with no internet-related performance impact on
+the Crestron processor.
+
+Using this Python script is optional -- you can fully use the Diagnostic Send symbols
 without this script.  The Python script does not run on the Crestron processor -- it runs on your PC, Mac, or a
 dedicated device (like a Raspberry Pi).
 
