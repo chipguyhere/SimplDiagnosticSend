@@ -13,7 +13,7 @@ Three high design priorities are:
 
 These three custom SIMPL+ blocks can be used to create a TCP Server service on a Crestron processor, allowing
 continuous sending of an unlimited number of diagnostic signals from within a SIMPL program.  Crestron's
-built-in #TCP Server# symbol in SIMPL is used for this purpose, and the custom blocks feed pre-formatted
+built-in *TCP Server* symbol in SIMPL is used for this purpose, and the custom blocks feed pre-formatted
 data to the TCP Server symbol, and in turn, the client script or software of your choice, running on another
 computer.
 
